@@ -4,8 +4,7 @@ const cors = require('cors');
 const port = process.env.PORT || 5050;
 
 const dbo = require('./db/connection');
-const dotenv = require("dotenv");
-dotenv.config();
+
 
 const routes = require('./routes/records');
 
@@ -16,8 +15,8 @@ app.use(routes);
 
 
 app.get('/', (req, res) => {
-	console.log("hellooo workng")
-	res.send('welcome to easy consulting!')
+	console.log("hellooo working")
+	res.send('welcome to consulting services!')
 	
 })
 
@@ -39,4 +38,4 @@ dbo.connectToServer(function (err) {
     app.listen(port, () => {
       console.log(`Server is running on port: ${port}`);
     });
-  });
+});
