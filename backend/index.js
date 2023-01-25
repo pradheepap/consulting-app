@@ -16,7 +16,9 @@ app.use(routes);
 
 app.get('/', (req, res) => {
 	console.log("hellooo working")
-	res.send('welcome to consulting services!')
+	res.send({
+        message : "Success"
+    })
 	
 })
 
