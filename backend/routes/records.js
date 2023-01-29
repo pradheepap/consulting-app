@@ -33,7 +33,6 @@ recordRoutes.route('/services/').post(function (req, res) {
   const dbConnect = dbo.getDb();
   const matchDocument = {
     email: req.body.email,
-    id: req.body.id,
   };
 
   dbConnect
