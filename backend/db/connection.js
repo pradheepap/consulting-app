@@ -4,7 +4,7 @@ dotenv.config();
 
 const mongodbUserName = process.env.MONGO_USER_NAME;
 const mongodbPassword = process.env.MONGO_PASSWORD;
-const connectionString=`mongodb+srv://${mongodbUserName}:${mongodbPassword}@cluster0.8pu2z.mongodb.net/consulting-app?retryWrites=true&w=majority`;
+const connectionString=`mongodb+srv://${mongodbUserName}:${mongodbPassword}@cluster0.8pu2z.mongodb.net/?retryWrites=true&w=majority`;
 
 console.log(`${mongodbUserName} - ${mongodbPassword} - ${connectionString}`)
 const client = new MongoClient(connectionString, {
