@@ -32,9 +32,7 @@ recordRoutes.route('/orders/').post(function (req, res) {
   const matchDocument = {
     orderName : req.body.orderName,
     addingCarts: req.body.addingCarts,
-    
-
-  };
+};
   dbConnect
     .collection('order')
     .insertOne(matchDocument, function (err, result) {
@@ -75,7 +73,7 @@ recordRoutes.route('/orders/:carts').post(function (req, res) {
   const listingQuery = { addingCarts: req.body.addingCarts };
   const updates = {
     $inc: {
-      quantity: 20,
+      quantity: 5,
     },
   };
 
@@ -93,12 +91,12 @@ recordRoutes.route('/orders/:carts').post(function (req, res) {
 });
 
 // // This section will help you delete a record.
-recordRoutes.route('/reviews/delete/:feedback').delete((req, res) => {
+recordRoutes.route('/orders/delete/:quantity').delete((req, res) => {
   const dbConnect = dbo.getDb();
-  const servicesQuery = { feedback : req.body. feedback};
+  const servicesQuery = { quantity : req.body. quantity};
 
   dbConnect
-    .collection('review')
+    .collection('order')
     .deleteOne(servicesQuery, function (err, _result) {
       if (err) {
         res
