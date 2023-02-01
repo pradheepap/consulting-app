@@ -9,11 +9,11 @@ const recordRoutes = express.Router();
 const dbo = require('../db/connection');
 
 // This section will help you get a list of all the records.
-recordRoutes.route('/services').get(async function (_req, res) {
+recordRoutes.route('/reviews').get(async function (_req, res) {
   const dbConnect = dbo.getDb();
 
   dbConnect
-    .collection('service')
+    .collection('review')
     .find({}) 
     .limit(50)
     .toArray(function (err, result) {
@@ -26,15 +26,17 @@ recordRoutes.route('/services').get(async function (_req, res) {
       }
     });
 });
-recordRoutes.route('/services/').post(function (req, res) {
+recordRoutes.route('/reviews/').post(function (req, res) {
 
   const dbConnect = dbo.getDb();
   const matchDocument = {
-    name : req.body.name,
-    no_Of_services: req.body.no_Of_services,
+  
+    feedback : req.body.feedback,
+    comment : req.body.comment,
+    rating : req.body.rating,
 };
   dbConnect 
-    .collection('service')
+    .collection('review')
     .insertOne(matchDocument, function (err, result) {
       if (err) {
         console.log("Error..", res)
@@ -68,17 +70,17 @@ recordRoutes.route('/services/').post(function (req, res) {
  // });
 
 // // This section will help you update a record by id.
-recordRoutes.route('/services/:noServices').post(function (req, res) {
+recordRoutes.route('/reviews/update/:rating').post(function (req, res) {
   const dbConnect = dbo.getDb();
-  const listingQuery = { name: req.body.name };
+  const listingQuery = {  feedback : req.body.feedback  };
   const updates = {
     $inc: {
-      no_Of_services: 5,
+    rating : 10,
     },
   };
 
   dbConnect
-    .collection('service')
+    .collection('review')
     .updateOne(listingQuery, updates, function (err, _result) {
       if (err) {
         res
@@ -92,12 +94,12 @@ recordRoutes.route('/services/:noServices').post(function (req, res) {
 });
 
 // // This section will help you delete a record.
-recordRoutes.route('/services/delete/:name').delete((req, res) => {
+recordRoutes.route('/reviews/delete/:rating').delete((req, res) => {
   const dbConnect = dbo.getDb();
-  const servicesQuery = { name : req.body. name};
+  const servicesQuery = { rating : req.body. rating};
 
   dbConnect
-    .collection('service')
+    .collection('review')
     .deleteOne(servicesQuery, function (err, _result) {
       if (err) {
         res
