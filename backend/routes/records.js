@@ -9,11 +9,11 @@ const recordRoutes = express.Router();
 const dbo = require('../db/connection');
 
 // This section will help you get a list of all the records.
-recordRoutes.route('/orders').get(async function (_req, res) {
+recordRoutes.route('/services').get(async function (_req, res) {
   const dbConnect = dbo.getDb();
 
   dbConnect
-    .collection('order')
+    .collection('service')
     .find({}) 
     .limit(50)
     .toArray(function (err, result) {
@@ -26,15 +26,15 @@ recordRoutes.route('/orders').get(async function (_req, res) {
       }
     });
 });
-recordRoutes.route('/orders/').post(function (req, res) {
+recordRoutes.route('/services/').post(function (req, res) {
 
   const dbConnect = dbo.getDb();
   const matchDocument = {
-    orderName : req.body.orderName,
-    addingCarts: req.body.addingCarts,
+    name : req.body.name,
+    no_Of_services: req.body.no_Of_services,
 };
-  dbConnect
-    .collection('order')
+  dbConnect 
+    .collection('service')
     .insertOne(matchDocument, function (err, result) {
       if (err) {
         console.log("Error..", res)
@@ -44,7 +44,7 @@ recordRoutes.route('/orders/').post(function (req, res) {
         res.status(204).send();
       }
     });
-});
+}); 
 // This section will help you create a new record.
 // recordRoutes.route('/listings/recordSwipe').post(function (req, res) {
 //   const dbConnect = dbo.getDb();
@@ -68,17 +68,17 @@ recordRoutes.route('/orders/').post(function (req, res) {
  // });
 
 // // This section will help you update a record by id.
-recordRoutes.route('/orders/:carts').post(function (req, res) {
+recordRoutes.route('/services/:noServices').post(function (req, res) {
   const dbConnect = dbo.getDb();
-  const listingQuery = { addingCarts: req.body.addingCarts };
+  const listingQuery = { name: req.body.name };
   const updates = {
     $inc: {
-      quantity: 5,
+      no_Of_services: 5,
     },
   };
 
   dbConnect
-    .collection('order')
+    .collection('service')
     .updateOne(listingQuery, updates, function (err, _result) {
       if (err) {
         res
@@ -86,17 +86,18 @@ recordRoutes.route('/orders/:carts').post(function (req, res) {
           .send(`Error updating likes on listing with id ${listingQuery.id}!`);
       } else {
         console.log('1 document updated');
+        res.status(204).send();
       }
     });
 });
 
 // // This section will help you delete a record.
-recordRoutes.route('/orders/delete/:quantity').delete((req, res) => {
+recordRoutes.route('/services/delete/:name').delete((req, res) => {
   const dbConnect = dbo.getDb();
-  const servicesQuery = { quantity : req.body. quantity};
+  const servicesQuery = { name : req.body. name};
 
   dbConnect
-    .collection('order')
+    .collection('service')
     .deleteOne(servicesQuery, function (err, _result) {
       if (err) {
         res
@@ -104,6 +105,7 @@ recordRoutes.route('/orders/delete/:quantity').delete((req, res) => {
           .send(`Error deleting listing with id ${servicesQuery.services_id}!`);
       } else {
         console.log('1 document deleted');
+        res.status(204).send();
       }
     });
 });  
