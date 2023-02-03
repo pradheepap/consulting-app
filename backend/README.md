@@ -12,7 +12,7 @@ GET : http://localhost:5050/services
 
 curl --header "Content-Type: application/json" \
   --request POST \
-  --data '{"email":"xyz@xyz.com","id":"123"}' \
+  --data '{"email":"xyzabcd@xyz.com","id":"123"}' \
   http://localhost:5050/services/
 
 - Delete Services Collection {Post}

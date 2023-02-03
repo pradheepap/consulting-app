@@ -9,12 +9,12 @@ const recordRoutes = express.Router();
 const dbo = require('../db/connection');
 
 // This section will help you get a list of all the records.
-recordRoutes.route('/services').get(async function (_req, res) {
+recordRoutes.route('/reviews').get(async function (_req, res) {
   const dbConnect = dbo.getDb();
 
   dbConnect
-    .collection('service_records')
-    .find({})
+    .collection('review')
+    .find({}) 
     .limit(50)
     .toArray(function (err, result) {
       if (err) {
@@ -26,17 +26,17 @@ recordRoutes.route('/services').get(async function (_req, res) {
       }
     });
 });
+recordRoutes.route('/reviews/').post(function (req, res) {
 
-// This section will help you create a new record.
-recordRoutes.route('/services/').post(function (req, res) {
-  
   const dbConnect = dbo.getDb();
   const matchDocument = {
-    email: req.body.email,
-  };
-
-  dbConnect
-    .collection('service_records')
+  
+    feedback : req.body.feedback,
+    comment : req.body.comment,
+    rating : req.body.rating,
+};
+  dbConnect 
+    .collection('review')
     .insertOne(matchDocument, function (err, result) {
       if (err) {
         console.log("Error..", res)
@@ -46,38 +46,60 @@ recordRoutes.route('/services/').post(function (req, res) {
         res.status(204).send();
       }
     });
-});
-
-// // This section will help you update a record by id.
-// recordRoutes.route('/services/:id').post(function (req, res) {
+}); 
+// This section will help you create a new record.
+// recordRoutes.route('/listings/recordSwipe').post(function (req, res) {
 //   const dbConnect = dbo.getDb();
-//   const listingQuery = { _id: req.body.id };
-//   const updates = {
-//     $inc: {
-//       likes: 1,
-//     },
+//   const matchDocument = {
+//     listing_id: req.body.id,
+//     last_modified: new Date(),
+//     session_id: req.body.session_id,
+//     direction: req.body.direction,
 //   };
 
 //   dbConnect
-//     .collection('listingsAndReviews')
-//     .updateOne(listingQuery, updates, function (err, _result) {
+//     .collection('matches')
+//     .insertOne(matchDocument, function (err, result) {
 //       if (err) {
-//         res
-//           .status(400)
-//           .send(`Error updating likes on listing with id ${listingQuery.id}!`);
+//         res.status(400).send('Error inserting matches!');
 //       } else {
-//         console.log('1 document updated');
+//         console.log(`Added a new match with id ${result.insertedId}`);
+//         res.status(204).send();
 //       }
 //     });
-// });
+ // });
 
-// // This section will help you delete a record.
-recordRoutes.route('/services/delete/:id').delete((req, res) => {
+// // This section will help you update a record by id.
+recordRoutes.route('/reviews/update/:rating').post(function (req, res) {
   const dbConnect = dbo.getDb();
-  const servicesQuery = { services_id: req.body.id };
+  const listingQuery = {  feedback : req.body.feedback  };
+  const updates = {
+    $inc: {
+    rating : 10,
+    },
+  };
 
   dbConnect
-    .collection('service_records')
+    .collection('review')
+    .updateOne(listingQuery, updates, function (err, _result) {
+      if (err) {
+        res
+          .status(400)
+          .send(`Error updating likes on listing with id ${listingQuery.id}!`);
+      } else {
+        console.log('1 document updated');
+        res.status(204).send();
+      }
+    });
+});
+
+// // This section will help you delete a record.
+recordRoutes.route('/reviews/delete/:rating').delete((req, res) => {
+  const dbConnect = dbo.getDb();
+  const servicesQuery = { rating : req.body. rating};
+
+  dbConnect
+    .collection('review')
     .deleteOne(servicesQuery, function (err, _result) {
       if (err) {
         res
@@ -85,8 +107,9 @@ recordRoutes.route('/services/delete/:id').delete((req, res) => {
           .send(`Error deleting listing with id ${servicesQuery.services_id}!`);
       } else {
         console.log('1 document deleted');
+        res.status(204).send();
       }
     });
-});
+});  
 
 module.exports = recordRoutes;
