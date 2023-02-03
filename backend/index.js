@@ -6,13 +6,16 @@ const port = process.env.PORT || 5050;
 const dbo = require('./db/connection');
 
 
-const routes = require('./routes/records');
+const reviews = require('./routes/reviews');
+const services = require('./routes/services');
+const orders = require('./routes/orders');
 
 app.use(express.json());
 app.use(cors());
 require('dotenv').config(); 
-app.use(routes);
-
+app.use(reviews);
+app.use(services);
+app.use(orders);
 
 app.get('/', (req, res) => {
 	console.log("hellooo working")
