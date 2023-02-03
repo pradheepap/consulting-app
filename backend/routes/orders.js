@@ -1,4 +1,5 @@
 const express = require('express');
+const ObjectId = require('mongodb').ObjectId;
 
 // recordRoutes is an instance of the express router.
 // We use it to define our routes.
@@ -74,14 +75,15 @@ orderRoutes.route('/orders/update/:orderName').post(function (req, res) {
 });
 
 // // This section will help you delete a record.
-orderRoutes.route('/orders/delete/:orderName').delete((req, res) => {
+orderRoutes.route('/orders/delete/:_id').delete((req, res) => {
   const dbConnect = dbo.getDb();
-  const servicesQuery = { addingCarts : req.body. addingCarts};
+  const servicesQuery = {_id: ObjectId(req.body.id)};
 
   dbConnect
     .collection('order')
     .deleteOne(servicesQuery, function (err, _result) {
       if (err) {
+        console.log("error", res)
         res
           .status(400)
           .send(`Error deleting listing with id ${servicesQuery.services_id}!`);
