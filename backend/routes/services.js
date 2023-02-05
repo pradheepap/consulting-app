@@ -11,21 +11,53 @@ const dbo = require('../db/connection');
 // This section will help you get a list of all the records.
 serviceRoutes.route('/services').get(async function (_req, res) {
   const dbConnect = dbo.getDb();
+  let output = {};
 
   dbConnect
     .collection('service')
-    .find({}) 
+    .find({}, {projection:{_id:0}}) 
     .limit(50)
     .toArray(function (err, result) {
       if (err) {
         console.log('Error fetching Service listings!');
         res.status(400).send('Error fetching Service listings!');
       } else {
-        console.log('fetching Service listings!', result);
-        res.json(result);
+        console.log('Fetching Service listings!', result);
+        output = {
+          data : result,
+          status: 200,
+          message: "Service Collection"
+        }
+
+        // output = [
+          //record // {
+          //   username : result[i].name,
+          //   servicesCount : no_Of_services,
+          //   rating: rating,
+          //   likes: likes
+          // },
+          // {},
+          // {}
+        // ];
+        
+
+   /*      {
+          "employees": [{
+            "employee": {
+              "name": "sonoo",
+              "salary": 56000,
+              "married": true
+            }
+          }],
+          "message": "services",
+          "status": 200
+        } */
+        res.send(output);
+
       }
     });
 });
+
 serviceRoutes.route('/services/').post(function (req, res) {
 
   const dbConnect = dbo.getDb();
