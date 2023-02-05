@@ -40,6 +40,18 @@ serviceRoutes.route('/services').get(async function (_req, res) {
           // {}
         // ];
         
+
+   /*      {
+          "employees": [{
+            "employee": {
+              "name": "sonoo",
+              "salary": 56000,
+              "married": true
+            }
+          }],
+          "message": "services",
+          "status": 200
+        } */
         res.send(output);
 
       }
