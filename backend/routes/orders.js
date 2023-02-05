@@ -6,16 +6,17 @@ const ObjectId = require('mongodb').ObjectId;
 // The router will be added as a middleware and will take control of requests starting with path /listings.
 const orderRoutes = express.Router();
 
-// This will help us connect to the database
+// This will help us connect to the databases
 const dbo = require('../db/connection');
 
 // This section will help you get a list of all the records.
 orderRoutes.route('/orders').get(async function (_req, res) {
   const dbConnect = dbo.getDb();
-
+  let output = []
+  let record = {}
   dbConnect
     .collection('order')
-    .find({}) 
+    .find({}, {projection:{_id:0}}) 
     .limit(50)
     .toArray(function (err, result) {
       if (err) {
@@ -23,7 +24,22 @@ orderRoutes.route('/orders').get(async function (_req, res) {
         res.status(400).send('Error fetching Service listings!');
       } else {
         console.log('fetching Service listings!', result);
-        res.json(result);
+        result.forEach(orders => {
+          record ={
+            tradeName : orders.orderName,
+            basket : orders.addingCarts,
+            quantity : orders.quantity
+          }
+          output.push(record)
+        });
+
+        let email ={
+          ordersCollection : output
+        }
+        email.status = 204;
+        email.message = "orders confirmed"
+
+        res.send(email);
       }
     });
 });

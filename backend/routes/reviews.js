@@ -11,10 +11,11 @@ const dbo = require('../db/connection');
 // This section will help you get a list of all the records.
 reviewRoutes.route('/reviews').get(async function (_req, res) {
   const dbConnect = dbo.getDb();
-
+  let output = []
+  let record = {}
   dbConnect
     .collection('review')
-    .find({}) 
+    .find({}, {projection:{_id:0}}) 
     .limit(50)
     .toArray(function (err, result) {
       if (err) {
@@ -22,7 +23,22 @@ reviewRoutes.route('/reviews').get(async function (_req, res) {
         res.status(400).send('Error fetching Service listings!');
       } else {
         console.log('fetching Service listings!', result);
-        res.json(result);
+        result.forEach(element => {
+          record={ 
+          report: element.feedback,
+          remark : element.comment,
+          rates : element.rating
+          }
+
+          output.push(record)
+        });
+        let message ={
+          "status" : 200,
+          "message" : "reviews confirmed"
+        }
+          output.push(message)
+        
+        res.send(output);
       }
     });
 });
