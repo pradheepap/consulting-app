@@ -3,6 +3,7 @@ import Header from '../Header/Header'
 import BuildTools from '../BuildTools/BuildTools'
 import About from '../About/About'
 import Services from '../Services/Services';
+import BrowserSupport from '../BrowserSupport/BrowserSupport';
 
 const Home = () => {
     return (
@@ -11,6 +12,7 @@ const Home = () => {
             <BuildTools/>
             <About/>
             <Services/>
+            <BrowserSupport/>
         </main>
 
     );
