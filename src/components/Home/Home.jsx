@@ -4,6 +4,7 @@ import BuildTools from '../BuildTools/BuildTools'
 import About from '../About/About'
 import Services from '../Services/Services';
 import BrowserSupport from '../BrowserSupport/BrowserSupport';
+import HappyClient from '../HappyClient/HappyClient';
 
 const Home = () => {
     return (
@@ -13,6 +14,7 @@ const Home = () => {
             <About/>
             <Services/>
             <BrowserSupport/>
+            <HappyClient/>
         </main>
 
     );
