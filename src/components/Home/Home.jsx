@@ -7,6 +7,7 @@ import BrowserSupport from '../BrowserSupport/BrowserSupport';
 import HappyClient from '../HappyClient/HappyClient';
 import Pricing from '../Pricing/Pricing';
 import Reviews from '../Reviews/Reviews';
+import Contact from '../Contacts/Contacts';
 
 const Home = () => {
     return (
@@ -19,6 +20,7 @@ const Home = () => {
             <HappyClient/>
             <Pricing/>
             <Reviews/>
+            <Contact/>
         </main>
 
     );
