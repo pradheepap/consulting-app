@@ -10,13 +10,13 @@ import Spinner from '../../Shared/Spinner/Spinner';
 const Reviews = () => {
     SwiperCore.use([Pagination, Autoplay]);
     const [reviews, setReviews] = useState([])
-    useEffect(() => {
-        fetch('https://immense-river-40491.herokuapp.com/reviews')
-        .then(res => res.json())
-        .then(data => {
-            setReviews(data);
-        })
-    }, [])
+    // useEffect(() => {
+    //     fetch('https://immense-river-40491.herokuapp.com/reviews')
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         setReviews(data);
+    //     })
+    // }, [])
     return (
         <section id="testimonial">
             <h4 className="miniTitle text-center">TESTIMONIALS</h4>
